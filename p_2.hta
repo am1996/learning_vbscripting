@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>VBScript HTA Dashboard</title>
+<HTA:APPLICATION 
+    ID="objHTA"
+    APPLICATIONNAME="SystemTool"
+    BORDER="dialog"
+    CAPTION="yes"
+    MAXIMIZEBUTTON="no"
+    MINIMIZEBUTTON="yes"
+    SHOWINTASKBAR="yes"
+    SINGLEINSTANCE="yes"
+    SYSMENU="yes"
+    VERSION="1.0"
+/>
+<style>
+    body {
+        font-family: Segoe UI, Tahoma, sans-serif;
+        background-color: #f3f3f3;
+        padding: 20px;
+        font-size: 14px;
+    }
+    .container {
+        background: #ffffff;
+        padding: 15px;
+        border: 1px solid #cccccc;
+    }
+    label, input, select, button {
+        display: block;
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 8px;
+        background-color: #0078d7;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    #output {
+        margin-top: 15px;
+        padding: 10px;
+        background: #eef;
+        border-left: 4px solid #0078d7;
+    }
+</style>
+
+<script language="VBScript">
+    Sub Window_OnLoad
+        ' Resize and center the window on startup
+        window.resizeTo 420, 360
+        window.moveTo (screen.availWidth - 420) / 2, (screen.availHeight - 360) / 2
+    End Sub
+
+    Sub RunAction
+        Dim strName, strRole, objShell
+        
+        ' Read values from HTML elements using their IDs
+        strName = document.getElementById("txtName").Value
+        strRole = document.getElementById("ddlRole").Value
+        
+        If Trim(strName) = "" Then
+            MsgBox "Please enter a name first.", vbExclamation, "Missing Input"
+            Exit Sub
+        End If
+
+        ' Update the HTML output area dynamically
+        document.getElementById("output").InnerHTML = _
+            "<strong>User:</strong> " & strName & "<br>" & _
+            "<strong>Selected Role:</strong> " & strRole
+
+        ' Example of running a WScript/COM action
+        Set objShell = CreateObject("WScript.Shell")
+        objShell.Popup "Profile configured for " & strName, 2, "Success", 64
+    End Sub
+</script>
+</head>
+
+<body>
+    <div class="container">
+        <label for="txtName">Employee Name:</label>
+        <input type="text" id="txtName" placeholder="e.g. Jane Doe">
+
+        <label for="ddlRole">Department:</label>
+        <select id="ddlRole">
+            <option value="IT Support">IT Support</option>
+            <option value="Administration">Administration</option>
+            <option value="Engineering">Engineering</option>
+        </select>
+
+        <button onclick="RunAction()">Generate Profile</button>
+
+        <div id="output">Waiting for input...</div>
+    </div>
+</body>
+</html>
