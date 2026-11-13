@@ -15,10 +15,20 @@ Do
     b = b + 1
 Loop Until b >= 20
 
+Dim x : x = 5
+For i=1 To x
+    Msg "Current iteration: " & i
+Next
+
 class Vehicle
     Private model
     Private serialNumber
+    public vinNumber
     Private color
+    Private Sub Class_Initialize()
+        vinNumber = "1HGCM82633A123456"
+        model = "Unknown"
+    End Sub
     Public Sub SetModel(value)
         model = value
     End Sub
@@ -29,8 +39,7 @@ class Vehicle
 End Class
 
 Dim myCar : Set myCar = New Vehicle
-myCar.SetModel("Toyota")
-MsgBox "My car model is: " & myCar.GetModel()
+MsgBox "My car model is: " & myCar.GetModel() & " and VIN number is: " & myCar.vinNumber
 
 
 
